@@ -3,12 +3,12 @@
 # 
 # Created by Erik Lenaerts (erik.lenaerts@streamsoftware.be)
 
-workspace extends ../model.dsl {
+workspace extends https://raw.githubusercontent.com/eriklenaerts/ssw-c4/refs/heads/main/model.dsl {
     name "Streamliner Cloud" 
-    description "The online customs platform from Stream Software"
+    description "The online platform from Stream Software"
 
     model {
-        !element consignmentSystem {
+        !element customsProduct {
             url https://structurizr.com/share/99553/3e35d378-6687-47b7-95e2-d7a3b60f23a9/diagrams#SystemContext-001
         }
     }
@@ -24,7 +24,7 @@ workspace extends ../model.dsl {
                 fontSize 22
                 shape Person
             }
-            element "Customer" {
+            element "User" {
                 background #0051c2
             }
             element "Customer Support Staff" {

@@ -37,6 +37,7 @@ workspace {
         # relationships between people and products
         principal -> customerEmailSystem "Request for declaration of goods via e-mail"
         principal -> principalERPSystem "Manage shipments" 
+        principal -> customer "Request for declaration of goods directly"
         principalERPSystem -> customerERPSystem "Request for declaration of goods via data exchange"
         principalERPSystem -> customerEmailSystem "Request for declaration of goods via e-mail"
 

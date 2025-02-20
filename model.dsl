@@ -11,7 +11,7 @@ workspace {
         group "Customs" {
             customsOfficer = person "Customs officer" "The national customs authority" "Party, Customs"
 
-            customsSystem = softwareSystem "Customs system" "The system of the national customs that processes the declarations of goods" "External system, Customs"
+            customsSystem = softwareSystem "Customs system" "The system of the national customs that processes the declarations of goods" "External system, Customs, CustomsSystem"
         }
 
         group "Principal" {
@@ -35,11 +35,11 @@ workspace {
         }
 
         # relationships between people and products
-        principal -> customerEmailSystem "Request for declaration of goods via e-mail"
+        principal -> customerEmailSystem "Request for declaration of goods"
         principal -> principalERPSystem "Manage shipments" 
         principal -> customer "Request for declaration of goods over e.g. phone"
         principalERPSystem -> customerERPSystem "Request for declaration of goods via data exchange"
-        principalERPSystem -> customerEmailSystem "Request for declaration of goods via e-mail"
+        # principalERPSystem -> customerEmailSystem "Request for declaration of goods via e-mail"
 
         customer -> customsProduct "Manage consignments and declare goods"
         customer -> complianceProduct "Uses this to conform to the compliancy rules"
@@ -51,6 +51,8 @@ workspace {
 
         customsOfficer -> complianceProduct "Uses this to verify compliancy actions taken"
         customsProduct -> customsSystem "Declare goods" 
+        customsProduct -> customer "Notify declaration status"
+        customer -> principal "Inform about declaration status"
         customerSupportStaff -> customsProduct "Support customers"
     }
 }

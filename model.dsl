@@ -9,7 +9,7 @@ workspace {
 
     model {
         group "Customs" {
-            customsAgent = person "Customs agent" "The national customs authority" "Party, Customs"
+            customsOfficer = person "Customs officer" "The national customs authority" "Party, Customs"
 
             customsSystem = softwareSystem "Customs system" "The system of the national customs that processes the declarations of goods" "External system, Customs"
         }
@@ -49,7 +49,7 @@ workspace {
         customerERPSystem -> customsProduct "Send declaration request via data exchange"
         customerEmailSystem -> customsProduct "Send declaration request via e-mail"
 
-        customsAgent -> complianceProduct "Uses this to verify compliancy actions taken"
+        customsOfficer -> complianceProduct "Uses this to verify compliancy actions taken"
         customsProduct -> customsSystem "Declare goods" 
         customerSupportStaff -> customsProduct "Support customers"
     }

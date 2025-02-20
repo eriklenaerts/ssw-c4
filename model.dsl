@@ -9,29 +9,29 @@ workspace {
 
     model {
         group "Customs" {
-            customs = person "Customs" "The national customs authority" "Party"
+            customsAgent = person "Customs agent" "The national customs authority" "Party, Customs"
 
-            customsSystem = softwareSystem "Customs system" "The system of the national customs that processes the declarations of goods" "External system"
+            customsSystem = softwareSystem "Customs system" "The system of the national customs that processes the declarations of goods" "External system, Customs"
         }
 
         group "Principal" {
-            principal = person "Principal" "The party where the declaration requests originates from" "Party"
+            principal = person "Principal" "The party where the declaration requests originates from" "Party, Principal"
 
-            principalERPSystem = softwareSystem "Principal ERP system" "External system"
+            principalERPSystem = softwareSystem "Principal ERP system" "External system, Principal"
         }
 
         group "Customer" {
-            customer = person "Customer" "The party that manages consignments and declares goods to customs" "Party"
+            customer = person "Customer" "The party that manages consignments and declares goods to customs" "Party, Customer"
     
-            customerEmailSystem = softwareSystem "Customer e-mail system" "External system"
-            customerERPSystem = softwareSystem "Customer ERP system" "External system"
+            customerEmailSystem = softwareSystem "Customer e-mail system" "External system, Customer"
+            customerERPSystem = softwareSystem "Customer ERP system" "External system, Customer"
         }
 
         group "Stream Software" {
-            customerSupportStaff = person "Customer Support Staff" "Customer support staff within Stream Softwarer" "Stream Software staff"
+            customerSupportStaff = person "Customer Support Staff" "Customer support staff within Stream Softwarer" "Party, Stream Software"
 
-            customsProduct = softwareSystem "Collection of customs applications and business modules"
-            complianceProduct = softwareSystem "Collection of compliance applications and business modules"
+            customsProduct = softwareSystem "Customs Product" "Collection of customs applications and business modules" "Stream Software"
+            complianceProduct = softwareSystem "Compliance Product" "Collection of compliance applications and business modules" "Stream Software"
         }
 
         # relationships between people and products
@@ -48,8 +48,8 @@ workspace {
         customerERPSystem -> customsProduct "Send declaration request via data exchange"
         customerEmailSystem -> customsProduct "Send declaration request via e-mail"
 
-        customs -> complianceProduct "Uses this to verify compliancy actions taken"
-        customer -> customerEmailSystem "Handle declaration request"
+        customsAgent -> complianceProduct "Uses this to verify compliancy actions taken"
+        customsProduct -> customsSystem "Declare goods" 
         customerSupportStaff -> customsProduct "Support customers"
     }
 }

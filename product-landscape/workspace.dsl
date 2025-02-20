@@ -18,8 +18,8 @@ workspace extends https://raw.githubusercontent.com/eriklenaerts/ssw-c4/refs/hea
             include *
         }
 
-        #filtered "SystemLandscape" include "Principal, Customer, Stream Software, Relationship" "systemlandscape2" "High level system landscape"
-        #filtered "SystemLandscape" include "Element, Relationship" "systemlandscape3" "High level system landscape"
+        filtered "SystemLandscape" include "Principal, Customer, CustomsSystem, Stream Software, Relationship" "Systemlandscape1" "High level system landscape"
+        filtered "SystemLandscape" include "Element, Relationship" "Systemlandscape2" "High level system landscape"
 
         styles {
             element "Person" {
@@ -33,7 +33,7 @@ workspace extends https://raw.githubusercontent.com/eriklenaerts/ssw-c4/refs/hea
             }
 
             element "Customer" {
-                background #0051c2
+                background #3384F5
             }
 
 
@@ -49,6 +49,10 @@ workspace extends https://raw.githubusercontent.com/eriklenaerts/ssw-c4/refs/hea
 
             element "Group:Stream Software" {
                 color #0051c2
+            }
+            
+            relationship "Relationship" {
+                routing Direct
             }
         }
     }

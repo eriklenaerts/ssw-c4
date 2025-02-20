@@ -24,12 +24,19 @@ workspace extends https://raw.githubusercontent.com/eriklenaerts/ssw-c4/refs/hea
                 fontSize 22
                 shape Person
             }
-            element "User" {
+
+            element "Customer" {
                 background #0051c2
             }
+
             element "Customer Support Staff" {
                 background #999999
             }
+
+            element "Party" {
+                background #999999
+            }
+
             element "Software System" {
                 background #999999
                 color #ffffff

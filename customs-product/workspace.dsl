@@ -1,5 +1,5 @@
 # C4 model for the Streamliner Cloud Product 
-# Online cloud workspace can be found at https://structurizr.com/share/99553
+# Online cloud workspace can be found at https://structurizr.com/share/99553/3e35d378-6687-47b7-95e2-d7a3b60f23a9
 # 
 # Created by Erik Lenaerts (erik.lenaerts@streamsoftware.be)
 

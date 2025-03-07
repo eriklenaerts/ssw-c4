@@ -1,0 +1,24 @@
+model {
+    extend principal  {
+        person person "Principal" {
+            description "The person who initiates a declaration request."
+        }
+        existingsystem ERP "Principal ERP system"
+    }
+
+    person -> ERP "Manage his business"
+    person -> customer.email "Request for declaration of goods per e-mail"
+    ERP -> customer.ERP "Request for declaration of goods via data exchange"
+
+}
+
+views {
+    view principal of principal {
+        title "Principal system landscape"
+        description "Shows the systems that the principal uses."
+        include 
+            *
+
+    }
+
+}

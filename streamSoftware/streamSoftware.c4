@@ -1,0 +1,32 @@
+model {
+    extend streamSoftware {
+        staff supportStaff "Customer support staff" {
+            #support
+            description "Customer support staff within Stream Softwarer"
+        }
+        
+        existingsystem supportSystem "Customer support system" {
+            #support
+            description "The system to manage customer support requests, tickets, etc."
+        }
+
+        product customsProduct "Customs product" {
+            description "The streamliner cloud product for customs delcarations."
+        }
+
+        product logisticsProduct "Logistics, Finance & Accounting product"
+    }
+
+    supportStaff -> supportSystem "Uses this to follow up on support cases"
+    supportStaff -> customsProduct "Assist in customer cases"
+    customsProduct.consignmentApp -> customer.person "Notify declaration status"
+}
+
+views {
+    view streamSoftware of streamSoftware {
+        title "Stream Software system landscape"
+        include 
+            *,
+            customer.person
+    }
+}

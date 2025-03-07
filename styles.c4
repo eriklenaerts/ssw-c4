@@ -1,0 +1,13 @@
+/*
+global {
+    style actors
+        element.kind = actor {
+          shape person
+    }
+
+    style mute_external
+        element.tag = #external {
+            color muted
+    }
+}
+*/

@@ -1,0 +1,99 @@
+/*
+C4 model for the Streamliner Cloud Product
+The syntax is based on https://likec4.dev/ a more practical and flexible variant of C4. 
+
+Created by Erik Lenaerts (erik.lenaerts@streamsoftware.be)
+*/
+specification {
+
+  // Elements
+  element product {
+    style {
+      opacity 25%
+    }
+  } 
+  
+  // Tags
+  tag external
+  tag depcrecated
+  tag support
+  tag middleware
+  tag infrastructure
+ 
+  element enterprise {
+    style {
+      opacity 15%
+    }
+  }
+  element application {
+    notation "Application"
+    style {
+      color primary
+      opacity 35%
+    }
+  }
+  element existingsystem {
+    notation "Existing System"
+    style {
+      color muted
+      opacity 15%
+    }
+  }
+  element api {
+    style {
+      opacity 20%
+    }
+  }
+  element container {
+    style {
+      opacity 20%
+    }
+  }
+
+  element service {
+    style {
+      opacity 20%
+    }
+  }
+  
+  element component
+
+  element mobileApp {
+    notation 'Mobile App'
+    style {
+      shape mobile
+    }
+  }
+
+  element webApp {
+    notation 'Web App'
+    style {
+      shape browser
+    }
+  }
+
+  element person {
+    notation 'Person, Customer'
+    style {
+      color green
+      shape person
+    }
+  }
+
+  element staff {
+    notation 'Person, Bank Staff'
+    style {
+      color secondary
+      shape person
+    }
+  }
+
+  // Structurizr does not have a database element
+  // Just for the sake of the example
+  element database {
+    style {
+      shape storage
+    }
+  }
+
+}

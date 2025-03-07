@@ -1,0 +1,85 @@
+model {
+    extend streamSoftware.customsProduct.consignmentApp  {
+        service consignmentBackend "Consignment Backend" {
+            technology ".NET Core"
+            icon tech:net-core
+            description "???"
+        }
+
+
+        webApp consignemntUI "Consignment UI" {
+            technology 'React'
+            icon tech:react
+            container consignmentBff "Consignment BFF" {
+                technology ".NET Core"
+                icon tech:net-core
+                description "???"
+            }
+        }
+        
+        webApp portal "Portal" {
+            technology "React, Typescript"
+            icon tech:react
+            description "Main app to manage consignments"
+        }
+
+        container portalGateway "Portal Gateway" {
+            #middleware, #infrastructure
+            technology ".NET Core"
+            description "Gateway to ...todo"
+        }
+        
+
+        service dmsBackend "DMS Backend" {
+            technology ".NET Core"
+            icon tech:net-core
+            description "??"
+        }
+
+        container dmsBff  "DMS BFF" {
+            technology ".NET Core"
+            icon tech:net-core
+            description "??"
+        }
+        
+
+        service = container "Simulator" {
+            technology ".NET Core"
+            icon tech:net-core
+            description "??"
+        }
+        
+        container masterData "Master data" {
+            // "Microsoft Azure - Blob Block" "Master data"
+            technology "Azure Blob storage"
+            icon azure:blob-block
+        }
+                    
+        container referenceData "Reference data" {
+            // "Microsoft Azure - Blob Block" "Reference data"
+            technology "Azure Blob storage"
+            icon azure:blob-block
+        }
+                    
+        // database = container "Database Schema" {
+        //     tags "Database"
+        // }
+
+        consignemntUI.consignmentBff -> consignmentBackend "Get app"  
+        portal -> consignemntUI "Navigate to specific app" 
+        customer.person -> portal "View catalog of custom apps"      
+        customer.person -> consignemntUI "Manage consignments and declarations" 
+        consignmentBackend -> dmsBackend ""     
+    }
+}
+
+views {
+    view consignmentApp of streamSoftware.customsProduct.consignmentApp {
+        title "Consignment App"
+        description "Shows the various building blocks of the consignment app."
+
+        include 
+            *,
+            customer.person
+    }
+}

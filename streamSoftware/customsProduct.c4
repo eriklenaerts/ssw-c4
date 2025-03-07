@@ -1,0 +1,35 @@
+model {
+    extend streamSoftware.customsProduct {            
+        application consignmentApp "Consignment Application" {
+            description "Collection of customs applications and business modules"
+        }
+
+        application complianceApp "Compliance Application" {
+            description "Collection of compliance applications and business modules" 
+        }
+
+        existingsystem xcomm "XComm" {
+            description "Communication system to interconnect with national customs systems"    
+        }
+    }
+
+    consignmentApp -> complianceApp "Check consignment compliancy"
+    consignmentApp -> xcomm "Declare goods"
+    xcomm -> customs.system "Declare goods"
+    xcomm -> consignmentApp "Notify physical control results"
+
+}
+
+views {
+    view customsProduct of streamSoftware.customsProduct {
+        include 
+            *,
+            -> * ->,
+            customs.*,
+            customer.person,
+            streamSoftware
+
+        exclude 
+            element.tag = #support
+    }
+}

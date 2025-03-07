@@ -1,0 +1,25 @@
+model {
+    extend customer {
+        person person "Customer" {
+            description "The person that manages consignments and declares goods to customs"
+        }
+        existingsystem email "Customer e-mail system"
+        existingsystem ERP "Customer ERP system"
+    }
+
+    person -> email "Handle declaration requests"
+    person -> ERP "Handle declaration requests" 
+    person -> streamSoftware.supportStaff "Request support"
+    person -> streamSoftware.customsProduct.consignmentApp "Manage consignments and declare goods"
+    person -> streamSoftware.customsProduct.complianceApp "Verify consignment and declaration compliancy"
+    email -> streamSoftware.customsProduct.consignmentApp "Send declaration request via e-mail"
+    ERP -> streamSoftware.customsProduct.consignmentApp "Send declaration request via data exchange" 
+}
+
+views {
+    view customer of customer {
+        title "Customer system landscape"
+        include *
+    }
+
+}

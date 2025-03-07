@@ -1,0 +1,84 @@
+/*
+C4 model for the Streamliner Cloud Product
+The syntax is based on https://likec4.dev/ a more practical and flexible variant of C4. 
+
+Created by Erik Lenaerts (erik.lenaerts@streamsoftware.be)
+*/
+
+model {
+    enterprise principal "Principal" {
+        description "The enterprise environment of the principal."
+    } 
+    
+    enterprise customer "Customer" {
+        description "The enterprise environment of the customer."
+    }
+    
+    enterprise streamSoftware "Stream Software" {
+        description "The enterprise environment of Stream Software."
+    }
+    
+    enterprise customs "Customs" {
+        description "The enterprise environment of the customs."
+    }
+
+    principal -> customer "Request declaration"
+    customer -> principal "Inform declaration status"
+    customer -> streamSoftware "Create and submit declaration"
+    customer -> streamSoftware "Verify declaration compliancy"
+    customer -> streamSoftware "Request support"
+    streamSoftware -> customer "Notify declaration status"
+    streamSoftware -> customs "Declare goods"
+    customs -> streamSoftware "Verify compliancy actions"
+    
+
+/*    
+    principal.person -> customer.system.email "Request for declaration of goods"
+    principal.person -> principal.system.ERPSystem "Manage shipments"
+    principal.person -> customer.person "Request for declaration of goods over conversation"
+    principal.system.ERPSystem -> customer.system.ERP "Request for declaration of goods via data exchange"
+    principal.system.ERPSystem -> customer.system.email "Request for declaration of goods via e-mail"
+
+    customer.person -> ssw.customsProduct.customsApp "Manage consignments and declare goods"
+    customer.person -> ssw.customsProduct.complianceApp "Check compliancy rules"
+    customer.person -> ssw.supportStaff "Request support"
+    customer.person -> customer.system.ERP "Handle declaration requests"
+    customer.person -> customer.system.email "Handle declaration requests"
+    customer.system.ERP -> ssw.customsProduct.customsApp "Send declaration request via data exchange"
+    customer.system.email -> ssw.customsProduct.customsApp "Send declaration request via e-mail"
+    
+    customs.officer -> ssw.customsProduct.complianceApp "Verify compliancy actions"
+    ssw.customsProduct.customsApp -> customs.system "Declare goods"
+    ssw.customsProduct.customsApp -> customer.system.email "Notify declaration status"
+    customer.person -> principal.person "Inform about declaration status"
+    ssw.supportStaff -> ssw.customsProduct "Assist in customer support"
+    */
+}
+
+views {
+    view systemLandscape {
+        title "System landscape"
+        description "In this landscape you can see the parties involved and their primary interactions."
+        include *
+
+        include customer -> streamSoftware with  {
+            title "Manage declarations"
+        }
+        autoLayout LeftRight 120 110
+    }
+
+/*     view detailedSystemLandscape {
+        title "System landscape consignment app"
+        description "Shows the system landscape with a focus on the consignment App of Stream Software."
+        include 
+            *,
+            streamSoftware.**,
+            -> principal.person,
+            customer.person
+        exclude element.tag = #support
+
+        include customer -> streamSoftware with  {
+            title "Manage declarations"
+        }
+    }
+ */}

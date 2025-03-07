@@ -1,0 +1,74 @@
+model {
+    extend streamSoftware.customsProduct.consignmentApp  {
+        webApp consignemntUI "Consignment UI" {
+            technology 'React'
+            icon tech:react
+        }
+
+        service consignmentBff "Consignment BFF" {
+            technology ".NET Core"
+            icon tech:net-core
+            description "???"
+        }
+
+        service consignmentBackend "Consignment Backend" {
+            technology ".NET Core"
+            icon tech:net-core
+            description "???"
+        }
+
+        dataStorage consignmentData "Consignment data" {
+            technology 'Azure blob storage'
+            icon azure:blob-page
+            description 'Consignments stored as json documents'
+        }
+
+        webApp portal "Portal" {
+            technology "React, Typescript"
+            icon tech:react
+            description "Main app to manage consignments"
+        }
+
+        container portalGateway "Portal Gateway" {
+            #middleware, #infrastructure
+            technology ".NET Core"
+            description "Gateway to ...todo"
+        }
+        
+        businessModule declarationModules "Declaration modules" {
+            description 'The declaration modules that connects to the various national customs systems.'
+            style {
+                multiple true
+            }        
+        }                            
+        
+        consignemntUI -> consignmentBff ""
+        consignmentBff -> declarationModules ""  
+        consignmentBff -> consignmentBackend ""
+        consignmentBff -> consignmentData "Read consignment data"
+        consignmentBackend -> consignmentData "Write consignment data"
+        portal -> consignemntUI "Navigate to specific app" 
+        customer.person -> portal "View catalog of custom apps"      
+        customer.person -> consignemntUI "Manage consignments and declarations" 
+    }
+}
+
+views {
+    view consignmentApp of streamSoftware.customsProduct.consignmentApp {
+        title "Stream Software - Consignment App"
+        description "Shows the various building blocks of the Stream Sowftare consignment app and its interactions."
+
+        include 
+            *,
+            -> * ->,
+            streamSoftware.customsProduct,
+            customs,
+            customs.*,
+            customer.person
+        exclude
+            streamSoftware.customsProduct.complianceApp,
+            streamSoftware.customsProduct.xcomm,
+            streamSoftware.customsProduct.simulator
+    }
+
+}

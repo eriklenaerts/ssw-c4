@@ -1,13 +1,17 @@
 model {
     extend streamSoftware {
-        staff supportStaff "Customer support staff" {
+        staff supportStaff "Support staff" {
             #support
             description "Customer support staff within Stream Softwarer"
         }
         
-        existingsystem supportSystem "Customer support system" {
+        system supportSystem "Customer support system" {
             #support
             description "The system to manage customer support requests, tickets, etc."
+        }
+
+        platform platform "Platform" {
+            description "The streamliner cloud common platform capabilities."
         }
 
         product customsProduct "Customs product" {
@@ -20,13 +24,19 @@ model {
     supportStaff -> supportSystem "Uses this to follow up on support cases"
     supportStaff -> customsProduct "Assist in customer cases"
     customsProduct.consignmentApp -> customer.person "Notify declaration status"
+    customsProduct -> platform "Relies on"
 }
 
 views {
     view streamSoftware of streamSoftware {
-        title "Stream Software system landscape"
+        title "Stream Software landscape"
+        description 'Shows the systems and products of Stream Sowftare and how they interact with other parties.'
         include 
             *,
             customer.person
+        
+        include customer.person -> streamSoftware.customsProduct with  {
+            title "Manage declarations"
+        }
     }
 }

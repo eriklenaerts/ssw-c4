@@ -4,27 +4,34 @@ The syntax is based on https://likec4.dev/ a more practical and flexible variant
 
 Created by Erik Lenaerts (erik.lenaerts@streamsoftware.be)
 */
-specification {
-
-  // Elements
-  element product {
-    style {
-      opacity 25%
-    }
-  } 
-  
+specification {  
   // Tags
-  tag external
+  tag external 
   tag depcrecated
   tag support
   tag middleware
   tag infrastructure
  
+   // Elements
   element enterprise {
     style {
       opacity 15%
     }
   }
+
+  element platform {
+    style {
+      opacity 25%
+      color amber
+    }
+  } 
+
+  element product {
+    style {
+      opacity 25%
+    }
+  } 
+
   element application {
     notation "Application"
     style {
@@ -32,13 +39,31 @@ specification {
       opacity 35%
     }
   }
-  element existingsystem {
-    notation "Existing System"
+
+  element businessModule {
+    notation "Application"
+    style {
+      color primary
+      opacity 35%
+    }
+  }
+
+  element system {
+    notation "System"
     style {
       color muted
       opacity 15%
     }
   }
+
+  element externalSystem {
+    notation "External System"
+    style {
+      color slate
+      opacity 15%
+    }
+  }
+
   element api {
     style {
       opacity 20%
@@ -73,7 +98,7 @@ specification {
   }
 
   element person {
-    notation 'Person, Customer'
+    notation 'Person'
     style {
       color green
       shape person
@@ -81,19 +106,23 @@ specification {
   }
 
   element staff {
-    notation 'Person, Bank Staff'
+    notation 'Person, Stream Software Staff'
     style {
-      color secondary
+      color slate
       shape person
     }
   }
 
-  // Structurizr does not have a database element
-  // Just for the sake of the example
-  element database {
+  element dataStorage {
     style {
       shape storage
     }
   }
 
+  relationship async {
+    color amber
+    line dotted
+    head vee
+    tail vee
+  }
 }

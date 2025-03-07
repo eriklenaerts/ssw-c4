@@ -3,18 +3,17 @@ model {
         person officer "Customs officer" {
             description "The national customs authority"
         }
-        existingsystem system "Customs system" {
+        system system "Customs system" {
             description "The system that is used by the national customs"
         }
     }
 
     officer -> system "Manage physical control results"
-    system -> streamSoftware.customsProduct.xcomm "Notify physical control results"
 }
 
 views {
     view customs of customs {
-        title "Customs system landscape"
+        title "Customs landscape"
         include 
             *,
             system.*,

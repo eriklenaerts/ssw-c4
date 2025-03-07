@@ -1,0 +1,62 @@
+model {
+    extend streamSoftware.customsProduct.consignmentApp.declarationModules {
+        service dmBackend "Declaration module backends" {
+            style {
+                multiple true
+            }    
+            technology ".NET Core"
+            icon tech:net-core
+            description "??"
+        }
+
+        container dmBff  "Declaration module BFF's" {
+            style {
+                multiple true
+            }    
+            technology ".NET Core"
+            icon tech:net-core
+            description "??"
+        }
+
+        dataStorage declarationData "Declaration data" {
+            technology "Azure Table storage"
+            icon azure:table
+            description 'Declarations stored as json documents with additional meta data.'
+        }
+
+        dataStorage messageData "Customs message data" {
+            technology "Azure Blob storage"
+            icon azure:blob-page
+            description 'Storage for all received messages from a national customs system.'
+        }
+
+        dmBff -[async]-> dmBackend "Process declarations" "NServiceBus"
+        dmBackend -[async]-> streamSoftware.customsProduct.consignmentApp.consignmentBackend "Process customs messages" "NServiceBus"
+        dmBackend -[async]-> streamSoftware.customsProduct.xcomm "Submit declaration"  "NServiceBus"
+        dmBackend -[async]-> streamSoftware.customsProduct.simulator "Simulate declaring of goods"  "NServiceBus"
+        dmBackend -> declarationData "Store declarations"
+        dmBackend -> messageData "Store received messages"
+        declarationModules -> customs "Declare goods"
+    }
+}
+
+views {
+    view dmsBusinessModule of streamSoftware.customsProduct.consignmentApp.declarationModules {
+        title "Stream Software - Declaration modules"
+        description "Shows the various building blocks of the Stream Sowftare declaration module and its interactions."
+
+        include 
+            *,
+            -> * ->,
+            streamSoftware.customsProduct,
+            streamSoftware.customsProduct.*,
+            streamSoftware.consignemntUI,
+            customs,
+            customs.*,
+            customer.person
+        
+        exclude
+            streamSoftware.customsProduct.complianceApp,
+            declarationModules -> customs
+    }           
+}

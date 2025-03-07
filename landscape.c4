@@ -56,7 +56,7 @@ model {
 }
 
 views {
-    view systemLandscape {
+    view index {
         title "System landscape"
         description "In this landscape you can see the parties involved and their primary interactions."
         include *

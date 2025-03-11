@@ -30,29 +30,6 @@ model {
     streamSoftware -> customer "Notify declaration status"
     streamSoftware -> customs "Declare goods"
     customs -> streamSoftware "Verify compliancy actions"
-    
-
-/*    
-    principal.person -> customer.system.email "Request for declaration of goods"
-    principal.person -> principal.system.ERPSystem "Manage shipments"
-    principal.person -> customer.person "Request for declaration of goods over conversation"
-    principal.system.ERPSystem -> customer.system.ERP "Request for declaration of goods via data exchange"
-    principal.system.ERPSystem -> customer.system.email "Request for declaration of goods via e-mail"
-
-    customer.person -> ssw.customsProduct.customsApp "Manage consignments and declare goods"
-    customer.person -> ssw.customsProduct.complianceApp "Check compliancy rules"
-    customer.person -> ssw.supportStaff "Request support"
-    customer.person -> customer.system.ERP "Handle declaration requests"
-    customer.person -> customer.system.email "Handle declaration requests"
-    customer.system.ERP -> ssw.customsProduct.customsApp "Send declaration request via data exchange"
-    customer.system.email -> ssw.customsProduct.customsApp "Send declaration request via e-mail"
-    
-    customs.officer -> ssw.customsProduct.complianceApp "Verify compliancy actions"
-    ssw.customsProduct.customsApp -> customs.system "Declare goods"
-    ssw.customsProduct.customsApp -> customer.system.email "Notify declaration status"
-    customer.person -> principal.person "Inform about declaration status"
-    ssw.supportStaff -> ssw.customsProduct "Assist in customer support"
-    */
 }
 
 views {

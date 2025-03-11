@@ -17,7 +17,7 @@ model {
         }
 
         service simulator "Simulator" {
-            technology ".NET Core"
+            technology ".NET"
             icon tech:net-core
             description "This service simulates XComm and communication with the national customs system for development and testing purposes."
         }
@@ -25,6 +25,7 @@ model {
 
     consignmentApp -> complianceApp "Check consignment compliancy"
     xcomm -> customs.system "Declare goods"
+    customs -> xcomm "Customs messages"
 
 }
 
@@ -40,6 +41,7 @@ views {
             streamSoftware
 
         exclude 
-            element.tag = #support
+            element.tag = #support,
+            consignmentApp -> customs
     }
 }

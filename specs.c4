@@ -123,6 +123,5 @@ specification {
     color amber
     line dotted
     head vee
-    tail vee
   }
 }

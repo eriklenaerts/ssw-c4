@@ -3,19 +3,20 @@ model {
         webApp consignemntUI "Consignment UI" {
             technology 'React'
             icon tech:react
+            description 'The consignment frontend (a.k.a. Portal)'
         }
 
         service consignmentBff "Consignment BFF" {
-            technology ".NET Core"
+            technology ".NET"
             icon tech:net-core
-            description "???"
+            description "Is both the API as well as the server for frontend app."
         }
 
         service consignmentBackend "Consignment Backend" {
-            technology ".NET Core"
+            technology ".NET"
             icon tech:net-core
-            description "???"
-        }
+            description "Processes the feedback from the declaration modules."
+        } 
 
         dataStorage consignmentData "Consignment data" {
             technology 'Azure blob storage'
@@ -23,16 +24,10 @@ model {
             description 'Consignments stored as json documents'
         }
 
-        webApp portal "Portal" {
-            technology "React, Typescript"
-            icon tech:react
-            description "Main app to manage consignments"
-        }
-
         container portalGateway "Portal Gateway" {
             #middleware, #infrastructure
-            technology ".NET Core"
-            description "Gateway to ...todo"
+            technology ".NET, YARP"
+            description "The reverse proxy that simplifies API routing."
         }
         
         businessModule declarationModules "Declaration modules" {
@@ -42,14 +37,24 @@ model {
             }        
         }                            
         
-        consignemntUI -> consignmentBff ""
-        consignmentBff -> declarationModules ""  
-        consignmentBff -> consignmentBackend ""
-        consignmentBff -> consignmentData "Read consignment data"
-        consignmentBackend -> consignmentData "Write consignment data"
-        portal -> consignemntUI "Navigate to specific app" 
-        customer.person -> portal "View catalog of custom apps"      
+        dataStorage partiesMasterData "Parties master data" {
+            technology "Azure Blob storage"
+            icon azure:blob-block
+            description 'Party information'
+        }
+
+        consignmentBff -> partiesMasterData "Manage parties"
+        partiesMasterData -> consignmentBff "Consume parties"
+        consignemntUI -> portalGateway
+        portalGateway -> consignmentBff "Manage consignments" 
+        portalGateway -> declarationModules.dmBff "Manage declarations" 
+        consignmentBff -> consignmentData "Manage consignment data"
+        consignmentBackend -> consignmentData "Amend consignments"
         customer.person -> consignemntUI "Manage consignments and declarations" 
+        consignmentBff -> streamSoftware.platform.referenceData "Download codelist"
+        consignmentBackend -> streamSoftware.platform.referenceData "Download codelist"
+        dmBackend -> streamSoftware.platform.referenceData "Download codelist"
+        dmBff -> streamSoftware.platform.referenceData "Download codelist"
     }
 }
 
@@ -61,13 +66,15 @@ views {
         include 
             *,
             -> * ->,
+            streamSoftware,
             streamSoftware.customsProduct,
+            streamSoftware.platform,
+            streamSoftware.platform.*,
             customs,
             customs.*,
             customer.person
         exclude
             streamSoftware.customsProduct.complianceApp,
-            streamSoftware.customsProduct.xcomm,
             streamSoftware.customsProduct.simulator
     }
 

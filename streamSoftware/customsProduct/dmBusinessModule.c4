@@ -4,38 +4,48 @@ model {
             style {
                 multiple true
             }    
-            technology ".NET Core"
+            technology ".NET"
             icon tech:net-core
-            description "??"
+            description "Service that generates the declaration XML. It also processes the customs messages."
         }
 
         container dmBff  "Declaration module BFF's" {
             style {
                 multiple true
             }    
-            technology ".NET Core"
+            technology ".NET"
             icon tech:net-core
-            description "??"
+            description "Is both the API as well as the server for frontend app."
+        }
+
+        dataStorage declarationMetadata "Declaration metadata" {
+            technology "Azure Table storage"
+            icon azure:table
+            description 'Declarations meta data and feedback.'
+        }
+
+        dataStorage auditData "Audit data" {
+            technology "Azure Blob storage"
+            icon azure:blob-page
+            description 'Raw xml messages (both send and received).'
         }
 
         dataStorage declarationData "Declaration data" {
-            technology "Azure Table storage"
-            icon azure:table
-            description 'Declarations stored as json documents with additional meta data.'
-        }
-
-        dataStorage messageData "Customs message data" {
             technology "Azure Blob storage"
             icon azure:blob-page
-            description 'Storage for all received messages from a national customs system.'
+            description 'Declaration data in a json format.'
         }
 
-        dmBff -[async]-> dmBackend "Process declarations" "NServiceBus"
-        dmBackend -[async]-> streamSoftware.customsProduct.consignmentApp.consignmentBackend "Process customs messages" "NServiceBus"
+        dmBff -[async]-> dmBackend "Submit declarations" "NServiceBus"
+        dmBff -> declarationMetadata "Manage declarations"
+        dmBackend -[async]-> streamSoftware.customsProduct.consignmentApp.consignmentBackend "Process declaration messages" "NServiceBus"
         dmBackend -[async]-> streamSoftware.customsProduct.xcomm "Submit declaration"  "NServiceBus"
+        streamSoftware.customsProduct.xcomm -[async]-> dmBackend "Customs messages"  "NServiceBus"
+        streamSoftware.customsProduct.simulator -[async]-> dmBackend "Customs messages"  "NServiceBus"
         dmBackend -[async]-> streamSoftware.customsProduct.simulator "Simulate declaring of goods"  "NServiceBus"
-        dmBackend -> declarationData "Store declarations"
-        dmBackend -> messageData "Store received messages"
+        dmBackend -> declarationMetadata "Store declarations"
+        dmBff -> declarationData "Store received messages"
+        dmBackend -> auditData "Store raw customs messages"
         declarationModules -> customs "Declare goods"
     }
 }
@@ -51,12 +61,15 @@ views {
             streamSoftware.customsProduct,
             streamSoftware.customsProduct.*,
             streamSoftware.consignemntUI,
+            streamSoftware.platform,
+            streamSoftware.platform.*,
             customs,
             customs.*,
             customer.person
         
         exclude
             streamSoftware.customsProduct.complianceApp,
-            declarationModules -> customs
+            declarationModules -> customs,
+            streamSoftware.customsProduct.simulator
     }           
 }

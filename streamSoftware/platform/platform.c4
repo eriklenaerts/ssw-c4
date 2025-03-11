@@ -1,19 +1,12 @@
 model {
     extend  streamSoftware.platform {
-        dataStorage masterData "Master data" {
-            technology "Azure Blob storage"
-            icon azure:blob-block
-            style {
-                color amber
-            }
-        }
-                    
         dataStorage referenceData "Reference data" {
             technology "Azure Blob storage"
             icon azure:blob-block
             style {
                 color amber
             }
+            description 'Code lists'
         }   
     }
 }

@@ -21,8 +21,8 @@ model {
         product logisticsProduct "Logistics, Finance & Accounting product"
     }
 
-    supportStaff -> supportSystem "Uses this to follow up on support cases"
-    supportStaff -> customsProduct "Assist in customer cases"
+    supportStaff -> supportSystem "Uses this to follow up on support cases" { #support}
+    supportStaff -> customsProduct "Assist in customer cases" { #support}
     customsProduct.consignmentApp -> customer.person "Notify declaration status"
     customsProduct -> platform "Relies on"
 }

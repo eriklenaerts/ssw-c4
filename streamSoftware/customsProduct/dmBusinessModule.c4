@@ -1,18 +1,12 @@
 model {
     extend streamSoftware.customsProduct.consignmentApp.declarationModules {
-        service dmBackend "Declaration module backends" {
-            style {
-                multiple true
-            }    
+        service dmBackend "Declaration module backend" {
             technology ".NET"
             icon tech:net-core
             description "Service that generates the declaration XML. It also processes the customs messages."
         }
 
-        container dmBff  "Declaration module BFF's" {
-            style {
-                multiple true
-            }    
+        container dmBff  "Declaration module BFF" {
             technology ".NET"
             icon tech:net-core
             description "Is both the API as well as the server for frontend app."

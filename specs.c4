@@ -8,6 +8,7 @@ specification {
   // Tags
   tag external 
   tag depcrecated
+  tag future
   tag support
   tag middleware
   tag infrastructure

@@ -3,24 +3,33 @@ model {
         person person "Customer" {
             description "The person that manages consignments and declares goods to customs"
         }
-        system email "Customer e-mail system"
-        system ERP "Customer ERP system"
+        system email "Customer e-mail system" { #future }
+        system ERP "Customer ERP system"  { #future }
     }
 
-    person -> email "Handle declaration requests"
-    person -> ERP "Handle declaration requests" 
-    person -> streamSoftware.supportStaff "Request support"
-    //person -> streamSoftware.customsProduct.consignmentApp "Manage consignments and declare goods"
-    person -> streamSoftware.customsProduct.complianceApp "Verify consignment and declaration compliancy"
-    email -> streamSoftware.customsProduct.consignmentApp "Send declaration request via e-mail"
-    ERP -> streamSoftware.customsProduct.consignmentApp "Send declaration request via data exchange" 
+    person -> email "Handle declaration requests" { #future }
+    person -> ERP "Handle declaration requests" { #future }
+    person -> streamSoftware.supportStaff "Request support" { #support }
+    person -> streamSoftware.customsProduct.complianceApp "Verify consignment and declaration compliancy" {#future}
+    person -> streamSoftware.customsProduct.consignmentApp "??" { #future }
+    email -> streamSoftware.customsProduct.consignmentApp "Send declaration request via e-mail" {#future}
+    ERP -> streamSoftware.customsProduct.consignmentApp "Send declaration request via data exchange" {#future}
 }
 
 views {
-    view customer of customer {
-        title "Customer landscape"
+    view customerAsIs of customer {
+        title "Customer As Is landscape"
+        description 'Shows the systems from the customer and how this all interact with Stream Sowftare.'
+        include *
+        exclude * where tag is #future
+        include customer.person -> streamSoftware.customsProduct with  {
+            title "Manage declarations"
+        }        
+    }
+
+    view customerToBe of customer {
+        title "Customer To Be landscape"
         description 'Shows the systems from the customer and how this all interact with Stream Sowftare.'
         include *
     }
-
 }

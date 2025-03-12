@@ -23,13 +23,12 @@ model {
     }
 
     principal -> customer "Request declaration"
-    customer -> principal "Inform declaration status"
+    customer -> principal "Inform declaration status" { #future }
     customer -> streamSoftware "Create and submit declaration"
-    customer -> streamSoftware "Verify declaration compliancy"
+    customer -> streamSoftware "Verify declaration compliancy" { #future }
     customer -> streamSoftware "Request support"
-    streamSoftware -> customer "Notify declaration status"
-    streamSoftware -> customs "Declare goods"
-    customs -> streamSoftware "Verify compliancy actions"
+    streamSoftware -> customer "Notify declaration status" { #future }
+    customs -> streamSoftware "Verify compliancy actions" { #future }
 }
 
 views {

@@ -3,7 +3,7 @@ model {
         person person "Principal" {
             description "The person who initiates a declaration request."
         }
-        system ERP "Principal ERP system"
+        externalSystem ERP "Principal ERP system"
     }
 
     person -> ERP "Manage his business"
@@ -16,9 +16,8 @@ views {
     view principal of principal {
         title "Principal landscape"
         description "Shows the systems that the principal uses and how they interact with their partner (being the customer of Stream Software)."
+       
         include 
             *
-
     }
-
 }

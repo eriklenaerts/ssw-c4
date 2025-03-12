@@ -53,8 +53,6 @@ model {
         customer.person -> consignemntUI "Manage consignments and declarations" 
         consignmentBff -> streamSoftware.platform.referenceData "Download codelist"
         consignmentBackend -> streamSoftware.platform.referenceData "Download codelist"
-        dmBackend -> streamSoftware.platform.referenceData "Download codelist"
-        dmBff -> streamSoftware.platform.referenceData "Download codelist"
     }
 }
 

@@ -3,33 +3,38 @@ model {
         person person "Customer" {
             description "The person that manages consignments and declares goods to customs"
         }
-        system email "Customer e-mail system" { #future }
-        system ERP "Customer ERP system"  { #future }
+        externalSystem email "Customer e-mail system" { #future }
+        externalSystem ERP "Customer ERP system"  { #future }
+    
+        person -> email "Handle declaration requests" { #future }
+        person -> ERP "Handle declaration requests" { #future }
+        person -> streamSoftware.supportStaff "Request support" { #support }
+        person -> streamSoftware.customsProduct.complianceApp "Verify consignment and declaration compliancy" {#future}
+        person -> streamSoftware.customsProduct.consignmentApp "??" { #future }
+        email -> streamSoftware.customsProduct.consignmentApp "Send declaration request via e-mail" {#future}
+        ERP -> streamSoftware.customsProduct.consignmentApp "Send declaration request via data exchange" {#future}
     }
-
-    person -> email "Handle declaration requests" { #future }
-    person -> ERP "Handle declaration requests" { #future }
-    person -> streamSoftware.supportStaff "Request support" { #support }
-    person -> streamSoftware.customsProduct.complianceApp "Verify consignment and declaration compliancy" {#future}
-    person -> streamSoftware.customsProduct.consignmentApp "??" { #future }
-    email -> streamSoftware.customsProduct.consignmentApp "Send declaration request via e-mail" {#future}
-    ERP -> streamSoftware.customsProduct.consignmentApp "Send declaration request via data exchange" {#future}
 }
 
 views {
-    view customerAsIs of customer {
-        title "Customer As Is landscape"
+    view customer of customer {
+        title "Customer landscape (As Is)"
         description 'Shows the systems from the customer and how this all interact with Stream Sowftare.'
-        include *
-        exclude * where tag is #future
-        include customer.person -> streamSoftware.customsProduct with  {
-            title "Manage declarations"
-        }        
+
+        include 
+            *,
+            principal,
+            customer.person -> streamSoftware.customsProduct with  {
+                title "Manage declarations"
+            }        
+
+        global predicate as-is
     }
 
-    view customerToBe of customer {
-        title "Customer To Be landscape"
+    view customerToBe extends customer {
+        title "Customer landscape (To Be)"
         description 'Shows the systems from the customer and how this all interact with Stream Sowftare.'
-        include *
-    }
+
+        global predicate to-be
+    }    
 }

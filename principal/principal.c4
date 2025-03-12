@@ -4,11 +4,11 @@ model {
             description "The person who initiates a declaration request."
         }
         externalSystem ERP "Principal ERP system"
-    }
-
-    person -> ERP "Manage his business"
-    person -> customer.email "Request for declaration of goods per e-mail"
-    ERP -> customer.ERP "Request for declaration of goods via data exchange"
+ 
+        person -> ERP "Manage his business"
+        person -> customer.email "Request for declaration of goods per e-mail"
+        ERP -> customer.ERP "Request for declaration of goods via data exchange"
+   }
 
 }
 

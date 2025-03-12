@@ -19,41 +19,33 @@ model {
         }
 
         product logisticsProduct "Logistics, Finance & Accounting product" { #future }
-    }
 
-    supportStaff -> supportSystem "Uses this to follow up on support cases" { #support}
-    supportStaff -> customsProduct "Assist in customer cases" { #support}
-    customsProduct -> platform "Relies on"
+        customsProduct -> platform "Relies on"
+        supportStaff -> supportSystem "Uses this to follow up on support cases" { #support}
+        supportStaff -> customsProduct "Assist in customer cases" { #support}
+    }
 }
 
 views {
-    view streamSoftwareAsIs of streamSoftware {
-        title "Stream Software As Is landscape"
+    view streamSoftware of streamSoftware {
+        title "Stream Software landscape (As Is)"
         description 'Shows the systems and products of Stream Sowftare and how they interact with other parties.'
+
         include 
             *,
             customer.person
-        exclude * where tag is #future
+
         include customer.person -> streamSoftware.customsProduct with  {
-            title "Manage declarations"
+            title "Manage and verify declarations"
         }
+
+        global predicate as-is
     }
 
-    view streamSoftwareToBe of streamSoftware {
-        title "Stream Software To Be landscape"
+    view streamSoftwareToBe extends streamSoftware {
+        title "Stream Software landscape (To Be)"
         description 'Shows the systems and products of Stream Sowftare and how they interact with other parties.'
-        include 
-            *,
-            customer.person
-        
-        include customer.person -> streamSoftware.customsProduct with  {
-            title "Manage declarations"
-        }
 
-        style element.tag = #future {
-            notation "Future"
-            color green
-        }
-
+        global predicate to-be
     }
 }

@@ -1,26 +1,26 @@
 model {
     extend customs {
         person officer "Customs officer" {
+            #future
             description "The national customs authority"
         }
-        system system "Customs system" {
+        externalSystem system "Customs system" {
+            #future
             description "The system that is used by the national customs"
         }
-    }
 
-    officer -> system "Manage physical control results"
+        officer -> system "Manage physical control results"
+    }
 }
 
 views {
     view customs of customs {
         title "Customs landscape"
+
         include 
             *,
             system.*,
             streamSoftware.customsProduct.complianceApp
-        exclude
-            streamSoftware.* <-> streamSoftware.*,
-            streamSoftware.supportStaff
     }
 
 }

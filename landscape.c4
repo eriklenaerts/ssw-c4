@@ -32,29 +32,25 @@ model {
 }
 
 views {
-    view index {
-        title "System landscape"
+     view index {
+        title "System landscape (As Is)"
         description "In this landscape you can see the parties involved and their primary interactions."
-        include *
 
-        include customer -> streamSoftware with  {
-            title "Manage declarations"
-        }
+        include 
+            * <-> *,
+            customer -> streamSoftware with  {
+                title "Manage declarations"
+            }
+
+        global predicate as-is
+
         autoLayout LeftRight 120 110
     }
 
-/*     view detailedSystemLandscape {
-        title "System landscape consignment app"
-        description "Shows the system landscape with a focus on the consignment App of Stream Software."
-        include 
-            *,
-            streamSoftware.**,
-            -> principal.person,
-            customer.person
-        exclude element.tag = #support
+    view indexToBe extends index {
+        title "System landscape (To Be)"
+        description "In this landscape you can see the parties involved and their primary interactions."
 
-        include customer -> streamSoftware with  {
-            title "Manage declarations"
-        }
+        global predicate to-be
     }
- */}
+ }

@@ -20,7 +20,7 @@ model {
 
         dataStorage consignmentData "Consignment data" {
             technology 'Azure blob storage'
-            icon azure:blob-page
+            icon azure:blob-block
             description 'Consignments stored as json documents'
         }
 
@@ -58,7 +58,7 @@ model {
 
 views {
     view consignmentApp of streamSoftware.customsProduct.consignmentApp {
-        title "Stream Software - Consignment App"
+        title "Stream Software - Consignment App (As Is)"
         description "Shows the various building blocks of the Stream Sowftare consignment app and its interactions."
 
         include 
@@ -68,12 +68,27 @@ views {
             streamSoftware.customsProduct,
             streamSoftware.platform,
             streamSoftware.platform.*,
-            customs,
-            customs.*,
-            customer.person
-        exclude
-            streamSoftware.customsProduct.complianceApp,
-            streamSoftware.customsProduct.simulator
+            customer,
+            customer.person,
+            customs
+
+        include consignmentApp.* -> streamSoftware.platform.referenceData with {
+            title "test"
+        }
+
+        global predicate as-is
+    }
+
+
+    view consignmentAppToBe extends consignmentApp {
+        title "Stream Software - Consignment App (To Be)"
+        description "Shows the various building blocks of the Stream Sowftare consignment app and its interactions."
+
+        include
+            streamSoftware.customsProduct.xcomm,
+            customs._
+
+        global predicate to-be
     }
 
 }

@@ -5,11 +5,12 @@ model {
         }
 
         application complianceApp "Compliance Application" {
+            #future
             description "Collection of compliance applications and business modules" 
         }
 
         externalSystem xcomm "XComm" {
-            #external
+            #external #future
             description "External communication system to interconnect with national customs systems"    
             style {
                 shape queue
@@ -17,32 +18,48 @@ model {
         }
 
         service simulator "Simulator" {
+            #depcrecated
             technology ".NET"
             icon tech:net-core
             description "This service simulates XComm and communication with the national customs system for development and testing purposes."
         }
+
+        consignmentApp -> complianceApp "Check consignment compliancy" { #future }
+        consignmentApp -> customer.person "Notify declaration status"  { #future }
+        xcomm -> customs.system "Declare goods"  { #future }
+        customs -> xcomm "Customs messages" { #future }
+        consignmentApp -> customer.person "Notify declaration status"  { #future }
+
     }
-
-    consignmentApp -> complianceApp "Check consignment compliancy"
-    consignmentApp -> customer.person "Notify declaration status"
-    xcomm -> customs.system "Declare goods"
-    customs -> xcomm "Customs messages"
-
 }
 
 views {
     view customsProduct of streamSoftware.customsProduct {
-        title 'Stream Software - Customs product'
+        title 'Stream Software - Customs product (As Is)'
         description 'Shows the customs product with its applications and interactions.'
+
         include 
             *,
             -> * ->,
-            customs.*,
+            customsProduct._,
             customer.person,
             streamSoftware
 
+        include consignmentApp -> streamSoftware.platform with  {
+            title "Relies on"
+        }
+
+
         exclude 
-            element.tag = #support,
-            consignmentApp -> customs
+            element.tag = #support
+        
+        global predicate as-is
+    }
+
+    view customsProductToBe extends customsProduct {
+        title 'Stream Software - Customs product (To Be)'
+        description 'Shows the customs product with its applications and interactions.'
+
+        global predicate to-be
     }
 }

@@ -13,7 +13,19 @@ model {
 
 views {
     view platform of streamSoftware.platform {
+        title "Stream Software cloud platform services (As Is)"
+        description "Contains all shared resources and services."
+
         include
             *
+
+        global predicate as-is
+    }
+
+    view platformToBe extends platform {
+        title "Stream Software cloud platform services (To Be)"
+        description "Contains all shared resources and services."
+
+        global predicate to-be
     }
 }

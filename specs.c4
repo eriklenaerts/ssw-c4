@@ -15,26 +15,28 @@ specification {
  
    // Elements
   element enterprise {
+    notation 'Enterprise'
     style {
       opacity 15%
     }
   }
 
   element platform {
+    notation 'Platform'
     style {
       opacity 25%
-      color amber
     }
   } 
 
   element product {
+    notation 'Product'
     style {
       opacity 25%
     }
   } 
 
   element application {
-    notation "Application"
+    notation 'Application'
     style {
       color primary
       opacity 35%
@@ -42,7 +44,7 @@ specification {
   }
 
   element businessModule {
-    notation "Application"
+    notation 'Business Module'
     style {
       color primary
       opacity 35%
@@ -50,7 +52,7 @@ specification {
   }
 
   element system {
-    notation "System"
+    notation 'System'
     style {
       color muted
       opacity 15%
@@ -58,7 +60,7 @@ specification {
   }
 
   element externalSystem {
-    notation "External System"
+    notation 'External System'
     style {
       color slate
       opacity 15%
@@ -66,17 +68,21 @@ specification {
   }
 
   element api {
+    notation 'API'
     style {
       opacity 20%
     }
   }
+
   element container {
+    notation 'Container'
     style {
       opacity 20%
     }
   }
 
   element service {
+    notation 'Service'
     style {
       opacity 20%
     }
@@ -115,14 +121,57 @@ specification {
   }
 
   element dataStorage {
+    notation 'Data storage'
     style {
       shape storage
     }
   }
 
+// Wanted to style all lines by default as a solid line
+/*   relationship * <-> * {
+     line solid 
+  }
+ */
   relationship async {
-    color amber
+    notation 'Async communication'
     line dotted
+    color secondary
     head vee
   }
+}
+
+global {
+    predicateGroup as-is {
+        exclude * -> * 
+            where tag = #future
+        exclude * 
+            where tag = #future
+        include * -> * 
+            where tag = #depcrecated with {
+                notation 'deprecated'
+                color amber
+            }
+        include * 
+            where tag = #depcrecated with {
+                notation 'deprecated'
+                color amber
+            }
+    }
+
+    predicateGroup to-be {
+        exclude * -> * 
+            where tag = #depcrecated
+        exclude * 
+            where tag = #depcrecated
+        include * -> * 
+            where tag = #future with {
+                notation 'future'
+                color green
+            }
+        include * 
+            where tag = #future with {
+                notation 'future'
+                color green
+            }
+    }
 }

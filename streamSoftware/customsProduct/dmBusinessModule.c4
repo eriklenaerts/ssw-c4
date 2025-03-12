@@ -33,39 +33,47 @@ model {
         dmBff -[async]-> dmBackend "Submit declarations" "NServiceBus"
         dmBff -> declarationMetadata "Manage declarations"
         dmBackend -[async]-> streamSoftware.customsProduct.consignmentApp.consignmentBackend "Process declaration messages" "NServiceBus"
-        dmBackend -[async]-> streamSoftware.customsProduct.xcomm "Submit declaration"  "NServiceBus"
-        streamSoftware.customsProduct.xcomm -[async]-> dmBackend "Customs messages"  "NServiceBus"
-        streamSoftware.customsProduct.simulator -[async]-> dmBackend "Customs messages"  "NServiceBus"
-        dmBackend -[async]-> streamSoftware.customsProduct.simulator "Simulate declaring of goods"  "NServiceBus"
+        dmBackend -[async]-> streamSoftware.customsProduct.xcomm "Submit declaration"  "NServiceBus" { #future }
+        streamSoftware.customsProduct.xcomm -[async]-> dmBackend "Customs messages"  "NServiceBus"  { #future }
+        streamSoftware.customsProduct.simulator -[async]-> dmBackend "Simulated customs messages"  "NServiceBus" { #depcrecated }
+        dmBackend -[async]-> streamSoftware.customsProduct.simulator "Simulate declaring of goods"  "NServiceBus" { #depcrecated }
         dmBackend -> declarationMetadata "Store declarations"
         dmBff -> declarationData "Store received messages"
         dmBackend -> auditData "Store raw customs messages"
-        declarationModules -> customs "Declare goods"
         dmBackend -> streamSoftware.platform.referenceData "Download codelist"
         dmBff -> streamSoftware.platform.referenceData "Download codelist"
     }
 }
 
 views {
-    view dmsBusinessModule of streamSoftware.customsProduct.consignmentApp.declarationModules {
-        title "Stream Software - Declaration modules"
+    view dmBusinessModule of streamSoftware.customsProduct.consignmentApp.declarationModules {
+        title "Stream Software - Declaration modules (As Is)"
         description "Shows the various building blocks of the Stream Sowftare declaration module and its interactions."
 
         include 
             *,
             -> * ->,
-            streamSoftware.customsProduct,
-            streamSoftware.customsProduct.*,
+            declarationModules._,
+            streamSoftware.customsProduct._,
             streamSoftware.consignemntUI,
-            streamSoftware.platform,
-            streamSoftware.platform.*,
-            customs,
-            customs.*,
-            customer.person
+            streamSoftware.platform._,
+            customer,
+            customer.person,
+            customs._
         
-        exclude
-            streamSoftware.customsProduct.complianceApp,
-            declarationModules -> customs,
-            streamSoftware.customsProduct.simulator
+
+        global predicate as-is
     }           
+
+    view dmBusinessModuleToBe extends dmBusinessModule {
+        title "Stream Software - Declaration modules (To Be)"
+        description "Shows the various building blocks of the Stream Sowftare declaration module and its interactions."
+
+        include
+            streamSoftware.customsProduct.xcomm,
+            customs._
+
+
+        global predicate to-be
+    }
 }

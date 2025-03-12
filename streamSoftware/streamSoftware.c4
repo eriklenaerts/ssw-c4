@@ -18,18 +18,29 @@ model {
             description "The streamliner cloud product for customs delcarations."
         }
 
-        product logisticsProduct "Logistics, Finance & Accounting product"
+        product logisticsProduct "Logistics, Finance & Accounting product" { #future }
     }
 
     supportStaff -> supportSystem "Uses this to follow up on support cases" { #support}
     supportStaff -> customsProduct "Assist in customer cases" { #support}
-    customsProduct.consignmentApp -> customer.person "Notify declaration status"
     customsProduct -> platform "Relies on"
 }
 
 views {
-    view streamSoftware of streamSoftware {
-        title "Stream Software landscape"
+    view streamSoftwareAsIs of streamSoftware {
+        title "Stream Software As Is landscape"
+        description 'Shows the systems and products of Stream Sowftare and how they interact with other parties.'
+        include 
+            *,
+            customer.person
+        exclude * where tag is #future
+        include customer.person -> streamSoftware.customsProduct with  {
+            title "Manage declarations"
+        }
+    }
+
+    view streamSoftwareToBe of streamSoftware {
+        title "Stream Software To Be landscape"
         description 'Shows the systems and products of Stream Sowftare and how they interact with other parties.'
         include 
             *,
@@ -38,5 +49,11 @@ views {
         include customer.person -> streamSoftware.customsProduct with  {
             title "Manage declarations"
         }
+
+        style element.tag = #future {
+            notation "Future"
+            color green
+        }
+
     }
 }

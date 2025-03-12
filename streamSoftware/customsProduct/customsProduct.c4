@@ -24,6 +24,7 @@ model {
     }
 
     consignmentApp -> complianceApp "Check consignment compliancy"
+    consignmentApp -> customer.person "Notify declaration status"
     xcomm -> customs.system "Declare goods"
     customs -> xcomm "Customs messages"
 

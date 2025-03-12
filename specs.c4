@@ -101,7 +101,7 @@ specification {
   element person {
     notation 'Person'
     style {
-      color green
+      color sky
       shape person
     }
   }

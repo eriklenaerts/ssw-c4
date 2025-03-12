@@ -41,6 +41,8 @@ model {
         dmBff -> declarationData "Store received messages"
         dmBackend -> auditData "Store raw customs messages"
         declarationModules -> customs "Declare goods"
+        dmBackend -> streamSoftware.platform.referenceData "Download codelist"
+        dmBff -> streamSoftware.platform.referenceData "Download codelist"
     }
 }
 

@@ -3,11 +3,8 @@ model {
         dataStorage referenceData "Reference data" {
             technology "Azure Blob storage"
             icon azure:blob-block
-            style {
-                color amber
-            }
             description 'Code lists'
-        }   
+        }  
     }
 }
 
@@ -18,6 +15,9 @@ views {
 
         include
             *
+
+        exclude * 
+            where tag = #infrastructure
 
         global predicate as-is
     }

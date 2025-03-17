@@ -1,76 +1,175 @@
 // Define deployment node kinds
 specification {
-    deploymentNode node
-    deploymentNode zone
-    deploymentNode environment {
+    deploymentNode datacenter {
+        notation 'Microsof Azure datacenter'
         style {
+            icon tech:azure
             color gray
         }
     }
+    deploymentNode subscription {
+        notation 'Microsoft Azure subscription'
+        style {
+            icon azure:subscriptions
+            opacity 20%
+        }
+    }
+    deploymentNode resourceGroup {
+        notation 'Microsoft Azure resource group'
+        style {
+            icon azure:resource-groups
+        }
+    }
+    deploymentNode storageAccount
+    deploymentNode azureContainerEnvironment {
+        style {
+            icon azure:container-apps-environments
+        }
+    }
+    deploymentNode azureContainerApp {
+        style {
+            icon azure:worker-container-app
+        }
+    }
+    deploymentNode azureServiceBus {
+        style {
+            icon azure:azure-service-bus
+        }
+    }
+    
+    //deploymentNode tenant
 }
 
 deployment {
-
-    node customerNode {
-        instanceOf customer.person
-    }
-
-    environment prod 'Production' {
-        eu = zone 'EU' {
-            zone zone1 {
-                instanceOf streamSoftware.consignmentApp.consignemntUI
-                instanceOf streamSoftware.consignmentApp.consignmentBackend
+    datacenter dc 'Azure West Europe' {
+        subscription test 'Test environment' {
+            style { color indigo }
+            resourceGroup rgPlatform 'Resource group: Platform' {
+                style { color indigo }
+                instanceOf streamSoftware.platform.containerRegistry {
+                    style { color indigo }
+                }
+                storageAccount platformStorageAccount 'Storage Account' {
+                    style { color indigo }
+                    instanceOf streamSoftware.platform.referenceData {
+                        style { color indigo }
+                    }
+                }
             }
-            zone zone2 {
-                instanceOf streamSoftware.consignmentApp.consignemntUI
-                instanceOf streamSoftware.consignmentApp.consignmentBackend
+            resourceGroup rgTenant 'Resource group: Tenant' {
+                style { color indigo }
+                azureContainerEnvironment ace 'Azure Container Environment' {
+                    style { color indigo }
+                    azureContainerApp caPortal 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.consignemntUI {
+                            style { color indigo }
+                        }
+                    }
+                    azureContainerApp caPortalGateway 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.portalGateway {
+                            style { color indigo }
+                        }
+                    }
+                    azureContainerApp caConsignmentBFF 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.consignmentBff {
+                            style { color indigo }
+                        }
+                    }
+                    azureContainerApp caConsignmentBackend 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.consignmentBackend {
+                            style { color indigo }
+                        }
+                    }
+                    azureContainerApp caDmBff 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.declarationModules.dmBff {
+                            style { color indigo }
+                        }
+                    }
+                    azureContainerApp caDmBackend 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.declarationModules.dmBackend {
+                            style { color indigo }
+                        }
+                    }
+                }
+
+                instanceOf streamSoftware.platform.serviceBus {
+                    style { color indigo }
+                }
             }
-            db = instanceOf streamSoftware.consignmentApp.consignmentData
+
+            ace -> containerRegistry 'Get container images'
         }
 
-        us = zone 'US' {
-            zone zone1 {
-                instanceOf streamSoftware.consignmentApp.consignemntUI
-                instanceOf streamSoftware.consignmentApp.consignmentBackend
+        subscription prod 'Production environment' {
+            style { color secondary }
+            resourceGroup rgPlatform 'Resource group: Platform' {
+                style { color secondary }
+                instanceOf streamSoftware.platform.containerRegistry {
+                    style { color secondary }
+                }
+                storageAccount platformStorageAccount 'Storage Account' {
+                    style { color secondary }
+                    instanceOf streamSoftware.platform.referenceData {
+                        style { color secondary }
+                    }
+                }
             }
-            zone zone2 {
-                instanceOf streamSoftware.consignmentApp.consignemntUI
-                instanceOf streamSoftware.consignmentApp.consignmentBackend
+            resourceGroup rgTenant 'Resource group: Tenant' {
+                style { color secondary }
+                azureContainerEnvironment ace 'Azure Container Environment' {
+                    style { color secondary }
+                    azureContainerApp caPortal 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.consignemntUI {
+                            style { color secondary }
+                        }
+                    }
+                    azureContainerApp caPortalGateway 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.portalGateway {
+                            style { color secondary }
+                        }
+                    }
+                    azureContainerApp caConsignmentBFF 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.consignmentBff {
+                            style { color secondary }
+                        }
+                    }
+                    azureContainerApp caConsignmentBackend 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.consignmentBackend {
+                            style { color secondary }
+                        }
+                    }
+                    azureContainerApp caDmBff 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.declarationModules.dmBff {
+                            style { color secondary }
+                        }
+                    }
+                    azureContainerApp caDmBackend 'Container app' {
+                        instanceOf streamSoftware.consignmentApp.declarationModules.dmBackend {
+                            style { color secondary }
+                        }
+                    }
+                }
+
+                instanceOf streamSoftware.platform.serviceBus {
+                    style { color secondary }
+                }
             }
-            db = instanceOf streamSoftware.consignmentApp.consignmentData
+
+            ace -> containerRegistry 'Get container images'
         }
 
-        us.db -> eu.db 'sync'
-        eu.db -> us.db 'sync'
     }
 }
 
 views {
-    deployment view someIndex {
+    deployment view deployment {
         title 'Deployment view'
 
         include
-            prod,
-            eu.zone1._,
-            eu.zone2._,
-            eu._,
-            us.zone1._,
-            us.zone2._,
-            us._,
+            dc,
+            dc.**,
+            test.serviceBus,
+            prod.serviceBus
 
-        exclude
-            eu._ <-> us._,
-            eu.zone1._ <-> eu.zone2._,
-            us.zone1._ <-> us.zone2._,
-
-        include
-            eu.db <-> us.db
-
-        style eu._ {
-      color green
-    }
-        style us._ {
-      color indigo
-    }
     }
 }

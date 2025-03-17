@@ -127,6 +127,14 @@ specification {
     }
   }
 
+  element azureService {
+      notation 'Azure Service'
+      style {
+          opacity 20%
+      }
+  }
+
+
 // Wanted to style all lines by default as a solid line
 /*   relationship * <-> * {
      line solid 
@@ -138,6 +146,8 @@ specification {
     color secondary
     head vee
   }
+
+
 }
 
 global {

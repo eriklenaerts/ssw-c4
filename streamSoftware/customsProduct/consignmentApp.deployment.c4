@@ -1,45 +1,4 @@
 // Define deployment node kinds
-specification {
-    deploymentNode datacenter {
-        notation 'Microsof Azure datacenter'
-        style {
-            icon tech:azure
-            color gray
-        }
-    }
-    deploymentNode subscription {
-        notation 'Microsoft Azure subscription'
-        style {
-            icon azure:subscriptions
-            opacity 20%
-        }
-    }
-    deploymentNode resourceGroup {
-        notation 'Microsoft Azure resource group'
-        style {
-            icon azure:resource-groups
-        }
-    }
-    deploymentNode storageAccount
-    deploymentNode azureContainerEnvironment {
-        style {
-            icon azure:container-apps-environments
-        }
-    }
-    deploymentNode azureContainerApp {
-        style {
-            icon azure:worker-container-app
-        }
-    }
-    deploymentNode azureServiceBus {
-        style {
-            icon azure:azure-service-bus
-        }
-    }
-    
-    //deploymentNode tenant
-}
-
 deployment {
     datacenter dc 'Azure West Europe' {
         subscription test 'Test environment' {
@@ -164,6 +123,7 @@ deployment {
 views {
     deployment view deployment {
         title 'Deployment view'
+        description 'todo'
 
         include
             dc,

@@ -1,0 +1,46 @@
+specification {
+    deploymentNode datacenter {
+        notation 'Microsof Azure datacenter'
+        style {
+            icon tech:azure
+            color gray
+        }
+    }
+    deploymentNode subscription {
+        notation 'Microsoft Azure subscription'
+        style {
+            icon azure:subscriptions
+            opacity 20%
+        }
+    }
+    deploymentNode resourceGroup {
+        notation 'Microsoft Azure resource group'
+        style {
+            icon azure:resource-groups
+        }
+    }
+    deploymentNode storageAccount {
+        notation 'Microsoft Azure storage account'
+        style {
+            icon azure:storage-accounts
+        }
+    }
+    deploymentNode azureContainerEnvironment {
+        notation 'Microsoft Azure container environment'
+        style {
+            icon azure:container-apps-environments
+        }
+    }
+    deploymentNode azureContainerApp {
+        notation 'Microsoft Azure container app'
+        style {
+            icon azure:worker-container-app
+        }
+    }
+    deploymentNode azureServiceBus {
+        notation 'Microsoft Azure service bus'
+        style {
+            icon azure:azure-service-bus
+        }
+    }
+}

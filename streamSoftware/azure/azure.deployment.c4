@@ -1,0 +1,26 @@
+deployment {
+    datacenter dc 'Azure datacenter: StreamSoftware Cloud Platform (West Europe)' {
+        subscription test 'Subscription: Test environment' {
+            style { color indigo }
+        }
+        subscription prod 'Subscription: Production environment' {
+            style { color secondary }
+        }
+    }   
+
+    azureDevOps do 'Azure DevOps' {
+        azureDevOps dop 'Azure DevOps: Pipelines' {
+            instanceOf streamSoftware.azure.devOps.pipelines
+        }
+    }
+}
+
+views {
+   deployment view subscriptions {
+    title 'Azure subscriptions'
+    
+    include
+        dc,
+        dc.*
+   } 
+}

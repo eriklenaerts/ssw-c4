@@ -1,0 +1,152 @@
+// Define deployment node kinds
+deployment {
+    extend dc.test {
+        resourceGroup rgPlatform 'Resource group: Platform'{
+            instanceOf streamSoftware.azure.containerRegistry {
+                style { color indigo }
+            }
+            storageAccount platformStorageAccount 'Storage Account' {
+                style { color indigo }
+                instanceOf streamSoftware.platform.referenceData {
+                    style { color indigo }
+                }
+            }
+        }
+
+        resourceGroup rgTenant 'Resource group: Tenant' {
+            style { color indigo }
+            azureContainerEnvironment ace 'Azure Container Environment' {
+                style { color indigo }
+                azureContainerApp caPortal 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.consignemntUI {
+                        style { color indigo }
+                    }
+                }
+                azureContainerApp caPortalGateway 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.portalGateway {
+                        style { color indigo }
+                    }
+                }
+                azureContainerApp caConsignmentBFF 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.consignmentBff {
+                        style { color indigo }
+                    }
+                }
+                azureContainerApp caConsignmentBackend 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.consignmentBackend {
+                        style { color indigo }
+                    }
+                }
+                azureContainerApp caDmBff 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.declarationModules.dmBff {
+                        style { color indigo }
+                    }
+                }
+                azureContainerApp caDmBackend 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.declarationModules.dmBackend {
+                        style { color indigo }
+                    }
+                }
+            }
+
+            instanceOf streamSoftware.azure.serviceBus {
+                style { color indigo }
+            }
+
+        }
+
+        ace -> containerRegistry 'Get container images'
+        do.dop -> containerRegistry 'Provision container images'
+
+    }
+
+    extend dc.prod {
+        resourceGroup rgPlatform 'Resource group: Platform' {
+            style { color secondary }
+            instanceOf streamSoftware.azure.containerRegistry {
+                style { color secondary }
+            }
+            storageAccount platformStorageAccount 'Storage Account' {
+                style { color secondary }
+                instanceOf streamSoftware.platform.referenceData {
+                    style { color secondary }
+                }
+            }
+        }
+        resourceGroup rgTenant 'Resource group: Tenant' {
+            style { color secondary }
+            azureContainerEnvironment ace 'Azure Container Environment' {
+                style { color secondary }
+                azureContainerApp caPortal 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.consignemntUI {
+                        style { color secondary }
+                    }
+                }
+                azureContainerApp caPortalGateway 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.portalGateway {
+                        style { color secondary }
+                    }
+                }
+                azureContainerApp caConsignmentBFF 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.consignmentBff {
+                        style { color secondary }
+                    }
+                }
+                azureContainerApp caConsignmentBackend 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.consignmentBackend {
+                        style { color secondary }
+                    }
+                }
+                azureContainerApp caDmBff 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.declarationModules.dmBff {
+                        style { color secondary }
+                    }
+                }
+                azureContainerApp caDmBackend 'Container app' {
+                    instanceOf streamSoftware.consignmentApp.declarationModules.dmBackend {
+                        style { color secondary }
+                    }
+                }
+            }
+
+            instanceOf streamSoftware.azure.serviceBus {
+                style { color secondary }
+            }
+
+        }
+
+        ace -> containerRegistry 'Get container images'
+        do.dop -> containerRegistry 'Provision container images'
+    }
+}
+
+views {
+    deployment view deployment {
+        title 'Consignment App: Deployment view'
+        description 'Shows how the various Streamliner components are deployed on Azure.'
+
+        include
+            dc,
+            dc.**,
+            dc.test.serviceBus,
+            dc.prod.serviceBus
+    }
+
+    deployment view provisioning {
+        title 'Consignment App: Provisioning view'
+        description 'Shows how Streamliner is provisioned'
+
+        include
+            dc,
+            dc.*,
+            dc.test.ace,
+            dc.test.containerRegistry,
+            dc.prod.ace,
+            dc.prod.containerRegistry,
+            do,
+            do.dop
+
+        autoLayout LeftRight 120 110
+
+    }
+}

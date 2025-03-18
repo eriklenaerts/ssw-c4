@@ -2,12 +2,16 @@ model {
     extend streamSoftware {
         staff supportStaff "Support staff" {
             #support
-            description "Customer support staff within Stream Softwarer"
+            description "Customer support staff within Stream Software."
         }
-        
+
         system supportSystem "Customer support system" {
             #support
             description "The system to manage customer support requests, tickets, etc."
+        }
+
+        staff productTeam "Product team" {
+            description "The team that builds the ."
         }
 
         platform platform "Platform" {

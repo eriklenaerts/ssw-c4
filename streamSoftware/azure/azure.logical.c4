@@ -1,0 +1,58 @@
+model {
+    extend streamSoftware {
+        system azure 'Microsoft Azure Cloud Platform' {
+            azureService serviceBus {
+                #infrastructure
+                technology 'Azure Service Bus'
+                icon azure:azure-service-bus
+            }
+
+            system devOps 'Microsoft Azure DevOps' {
+                #infrastructure
+                technology 'Azure DevOps'
+                icon azure:azure-dev-ops
+                system boards 'Microsoft Azure DevOps: Boards' {
+                    #infrastructure
+                    technology 'Azure DevOps Boards'
+                    icon azure:azure-dev-ops
+                }
+                system repos 'Microsoft Azure DevOps: Repos' {
+                    #infrastructure
+                    technology 'Azure DevOps repos'
+                    icon azure:azure-dev-ops
+                }
+                system pipelines 'Microsoft Azure DevOps: Pipelines' {
+                    #infrastructure
+                    technology 'Azure DevOps pipelines'
+                    icon azure:azure-dev-ops
+                }
+            }
+
+            azureService containerRegistry {
+                #infrastructure
+                technology 'Azure Container Registry'
+                icon azure:container-registries
+            }
+
+            productTeam -> devOps.boards 'Manage product backlog items'
+            productTeam -> devOps.pipelines 'Manage product builds'
+            productTeam -> devOps.repos 'Manage source code'
+        }
+    }
+}
+
+views {
+    view azure of azure {
+        title 'ALM'
+        description 'Shows the development flow'
+
+        include 
+            *,
+            devOps, 
+            devOps.*
+        
+        exclude
+            serviceBus,
+            containerRegistry
+    }
+}

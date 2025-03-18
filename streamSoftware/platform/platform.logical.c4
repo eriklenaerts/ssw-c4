@@ -16,9 +16,6 @@ views {
         include
             *
 
-        exclude * 
-            where tag = #infrastructure
-
         global predicate as-is
     }
 

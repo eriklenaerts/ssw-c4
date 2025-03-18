@@ -43,4 +43,11 @@ specification {
             icon azure:azure-service-bus
         }
     }
+
+    deploymentNode azureDevOps {
+        notation 'Microsoft Azure dev ops'
+        style {
+            icon azure:azure-dev-ops
+        }
+    }
 }

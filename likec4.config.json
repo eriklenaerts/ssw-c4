@@ -1,0 +1,10 @@
+{
+  "name": "Streamliner Cloud",
+
+  // override defaults
+  "defaults": {
+    "relationship": {
+      "line": "solid"     
+    }
+  }
+}

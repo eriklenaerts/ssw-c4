@@ -49,7 +49,6 @@ views {
 
     view indexToBe extends index {
         title "System landscape (To Be)"
-        description "In this landscape you can see the parties involved and their primary interactions."
 
         global predicate to-be
     }

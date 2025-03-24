@@ -67,7 +67,6 @@ views {
 
     view dmBusinessModuleToBe extends dmBusinessModule {
         title "Stream Software - Declaration modules (To Be)"
-        description "Shows the various building blocks of the Stream Sowftare declaration module and its interactions."
 
         include
             streamSoftware.customsProduct.xcomm,

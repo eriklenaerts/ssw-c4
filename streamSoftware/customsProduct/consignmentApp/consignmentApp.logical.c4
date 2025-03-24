@@ -82,7 +82,6 @@ views {
 
     view consignmentAppToBe extends consignmentApp {
         title "Stream Software - Consignment App (To Be)"
-        description "Shows the various building blocks of the Stream Sowftare consignment app and its interactions."
 
         include
             streamSoftware.customsProduct.xcomm,

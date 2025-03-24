@@ -12,6 +12,9 @@ specification {
   tag support
   tag middleware
   tag infrastructure
+  tag cassandra
+  tag iris
+  tag legacy
  
    // Elements
   element enterprise {

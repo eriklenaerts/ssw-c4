@@ -48,7 +48,6 @@ views {
 
     view streamSoftwareToBe extends streamSoftware {
         title "Stream Software landscape (To Be)"
-        description 'Shows the systems and products of Stream Sowftare and how they interact with other parties.'
 
         global predicate to-be
     }

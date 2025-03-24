@@ -58,7 +58,6 @@ views {
 
     view customsProductToBe extends customsProduct {
         title 'Stream Software - Customs product (To Be)'
-        description 'Shows the customs product with its applications and interactions.'
 
         global predicate to-be
     }
